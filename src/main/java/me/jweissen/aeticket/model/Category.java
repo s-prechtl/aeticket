@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table
 @Getter
@@ -26,4 +28,7 @@ public class Category {
     @JoinColumn(nullable = false)
     private Event event;
 
+    @OneToMany(mappedBy = "category")
+    @JoinColumn
+    private List<CartEntry> cartEntries;
 }

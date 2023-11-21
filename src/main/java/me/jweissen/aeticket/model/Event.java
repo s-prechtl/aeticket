@@ -1,8 +1,7 @@
 package me.jweissen.aeticket.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,21 +11,28 @@ import java.util.List;
 @Table
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
+    @NonNull
     private String title;
 
     @Column(nullable = false)
+    @NonNull
     private String description;
 
     @Column(nullable = false)
+    @NonNull
     private Date start;
 
     @Column(nullable = false)
+    @NonNull
     private Date end;
 
     @OneToMany(mappedBy = "event")

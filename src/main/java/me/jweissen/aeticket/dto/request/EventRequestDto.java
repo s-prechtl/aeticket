@@ -1,4 +1,12 @@
 package me.jweissen.aeticket.dto.request;
 
-public record EventRequestDto() {
+import java.util.Date;
+import java.util.List;
+
+public record EventRequestDto(
+        String name,
+        Date from,
+        Date to,
+        String description,
+        List<CategoryRequestDto> ticketCategories) {
 }

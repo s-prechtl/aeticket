@@ -162,7 +162,7 @@ services:
    * Endpunkt: `/api/v1/cart/add`
    * Erforderlicher Token wird als Bearer - Token im Autorizationheader mitgeschickt.
    * Erfoderliche Daten werden im Requst - Body als JSON - Objekt mitgeschickt.
-     `{"id": 1, tickets: [{"id": 1, "amount": 2}, {"id": 2, "amount": 1}]}`
+     `{"id": 1, cartEntries: [{"id": 1, "amount": 2}, {"id": 2, "amount": 1}]}`
    * Im Erfolgsfall wird der Statuscode `200` zurückgegeben.
    * Bei Misserfolg wird der Statuscode `400` / `401` zurückgebeben.
 
@@ -170,7 +170,7 @@ services:
    * `GET` - Request
    * Endpunkt: `/api/v1/cart/list`
    * Erforderlicher Token wird als Bearer - Token im Autorizationheader mitgeschickt.
-   * Im Erfolgsfall wird der Statuscode `200` und folgende Daten zurückgegeben: `[{"id": 1, "name": "Maturaball HTL Steyr 2024", "from": "02.03.2024 19:00", "to": "03.03.2024 05:00", "description": "Bester Ball der HTL Steyr", "tickets": [{"id": 1, "name": "A", "price": 25, "amount": 2}, {"id": 2, "name": "B", "price": 22, "amount": 1}]}, {"id": 2, "name": "Frühjahrskonzert der HTL Steyr", "from": "09.04.2024 19:00", "to": "09.04.2024 21:00", "description": "Konzert des Schulorchestersr", "tickets": [{"id": 4, "name": "A", "price": 12, "amount": 2}]}]`
+   * Im Erfolgsfall wird der Statuscode `200` und folgende Daten zurückgegeben: `[{"id": 1, "name": "Maturaball HTL Steyr 2024", "from": "02.03.2024 19:00", "to": "03.03.2024 05:00", "description": "Bester Ball der HTL Steyr", "cartEntries": [{"id": 1, "name": "A", "price": 25, "amount": 2}, {"id": 2, "name": "B", "price": 22, "amount": 1}]}, {"id": 2, "name": "Frühjahrskonzert der HTL Steyr", "from": "09.04.2024 19:00", "to": "09.04.2024 21:00", "description": "Konzert des Schulorchestersr", "cartEntries": [{"id": 4, "name": "A", "price": 12, "amount": 2}]}]`
    * Bei Misserfolg wird der Statuscode `400` / `401` zurückgebeben.
 
 ### Tickets kaufen

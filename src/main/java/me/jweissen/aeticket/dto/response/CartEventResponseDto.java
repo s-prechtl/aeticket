@@ -1,12 +1,13 @@
 package me.jweissen.aeticket.dto.response;
 
+import java.util.Date;
 import java.util.List;
 
 public record CartEventResponseDto(
         int id,
         String name,
-        String from,
-        String to,
+        Date from,
+        Date to,
         String description,
-        List<TicketResponseDto> tickets) {
+        List<CartEntryResponseDto> cartEntries) {
 }

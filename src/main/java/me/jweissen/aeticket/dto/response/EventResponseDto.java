@@ -1,12 +1,13 @@
-package me.jweissen.aeticket.dto.request;
+package me.jweissen.aeticket.dto.response;
 
+import java.util.Date;
 import java.util.List;
 
 public record EventResponseDto(
         int id,
         String name,
-        String from,
-        String to,
+        Date from,
+        Date to,
         String description,
-        List<TicketCategoryResponseDto> ticketCategories) {
+        List<CategoryResponseDto> ticketCategories) {
 }

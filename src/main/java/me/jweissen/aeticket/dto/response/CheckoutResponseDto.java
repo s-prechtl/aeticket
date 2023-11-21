@@ -1,4 +1,4 @@
 package me.jweissen.aeticket.dto.response;
 
-public class CheckoutResponseDto {
+public record CheckoutResponseDto(double price) {
 }
