@@ -7,6 +7,8 @@ import me.jweissen.aeticket.model.Event;
 import me.jweissen.aeticket.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EventService {
     private final EventRepository eventRepository;
@@ -31,8 +33,12 @@ public class EventService {
             event.getStart(),
             event.getEnd(),
             event.getDescription(),
-            event.getCategories()
-        )
+            CategoryService.toDtos(event.getCategories())
+        );
+    }
+
+    public static List<EventResponseDto> toDtos(List<Event> events) {
+        return events.stream().map(EventService::toDto).toList();
     }
 
     public void create(EventRequestDto event) {
@@ -47,6 +53,10 @@ public class EventService {
     }
 
     public EventResponseDto getById(Integer id) {
-        return eventRepository.getReferenceById(id);
+        return EventService.toDto(eventRepository.getReferenceById(id));
+    }
+
+    public List<EventResponseDto> getAllFuture() {
+        return EventService.toDtos(eventRepository.findAllFuture());
     }
 }

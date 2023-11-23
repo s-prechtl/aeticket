@@ -2,6 +2,7 @@ package me.jweissen.aeticket.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.List;
@@ -13,16 +14,19 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
+    @NonNull
     private String name;
 
     @Column(nullable = false)
-    private Double price;
+    @NonNull
+    private Integer price;
 
     @Column(nullable = false)
-    private int stock;
+    @NonNull
+    private Integer stock;
 
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
