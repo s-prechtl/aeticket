@@ -20,7 +20,9 @@ public class CartService {
     }
 
     public List<CartEventResponseDto> toDto(Cart cart) {
-        List<Event> distinctEvents = cart.getCartEntries().stream().map(entry -> entry.getCategory().getEvent()).distinct().toList();
+        List<Event> distinctEvents = cart.getCartEntries().stream().map(
+                entry -> entry.getCategory().getEvent()
+        ).distinct().toList();
         return distinctEvents.stream().map(event ->
             new CartEventResponseDto(
                 event.getId(),

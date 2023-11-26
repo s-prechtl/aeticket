@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface CartEntryRepository extends JpaRepository<CartEntry, Integer> {
     @Query("SELECT ce FROM CartEntry ce WHERE ce.cart.id = :cartId AND ce.category.event.id = :eventId")
-    List<CartEntry> getByCartAndEvent(@Param("cartId") Integer cartId, @Param("eventId") Integer eventId);
+    List<CartEntry> getByCartAndEvent(@Param("cartId") Long cartId, @Param("eventId") Long eventId);
 }
