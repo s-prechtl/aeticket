@@ -1,5 +1,6 @@
 package me.jweissen.aeticket.service;
 
+import me.jweissen.aeticket.dto.response.CartEntryResponseDto;
 import me.jweissen.aeticket.dto.response.CartEventResponseDto;
 import me.jweissen.aeticket.model.Cart;
 import me.jweissen.aeticket.model.Event;
@@ -33,4 +34,7 @@ public class CartService {
                 CartEntryService.toDtos(cartEntryRepository.getByCartAndEvent(cart.getId(), event.getId()))
             )).toList();
     }
+
+    //public List<CartEntryResponseDto> getCartByAuthToken() {
+
 }

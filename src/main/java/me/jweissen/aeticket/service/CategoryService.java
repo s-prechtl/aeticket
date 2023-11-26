@@ -10,14 +10,18 @@ import java.util.List;
 public class CategoryService {
     public static CategoryResponseDto toDto(Category category) {
         return new CategoryResponseDto(
-                category.getId(),
-                category.getName(),
-                category.getPrice() / 100.0,
-                category.getStock()
+            category.getId(),
+            category.getName(),
+            centsToEuros(category.getPrice()),
+            category.getStock()
         );
     }
 
     public static List<CategoryResponseDto> toDtos(List<Category> categories) {
         return categories.stream().map(CategoryService::toDto).toList();
+    }
+
+    public static Double centsToEuros(int cents) {
+        return cents / 100.0;
     }
 }

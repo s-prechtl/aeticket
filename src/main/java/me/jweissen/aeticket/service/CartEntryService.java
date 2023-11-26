@@ -14,7 +14,7 @@ public class CartEntryService {
         return new CartEntryResponseDto(
             category.getId(),
             category.getName(),
-            category.getPrice(),
+            CategoryService.centsToEuros(category.getPrice()),
             cartEntry.getAmount()
         );
     }
