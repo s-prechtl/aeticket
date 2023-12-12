@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    username: my
+    password: ticket
+    url: 'jdbc:mysql://localhost:4306/myticket'
+token:
+  secret: "RATP loves Laravel more than Symfony"
+  validForHours: 24
