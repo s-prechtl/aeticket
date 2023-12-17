@@ -33,6 +33,5 @@ public class Category {
     private Event event;
 
     @OneToMany(mappedBy = "category")
-    @JoinColumn
     private List<CartEntry> cartEntries;
 }

@@ -42,6 +42,5 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn(nullable = false)
     private List<Cart> carts;
 }

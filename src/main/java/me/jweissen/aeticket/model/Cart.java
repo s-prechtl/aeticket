@@ -16,7 +16,7 @@ public class Cart {
     private Long id;
 
     @OneToMany(mappedBy = "cart")
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private List<CartEntry> cartEntries;
 
     @ManyToOne

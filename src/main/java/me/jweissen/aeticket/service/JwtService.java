@@ -14,17 +14,12 @@ import java.util.Optional;
 
 @Service
 public class JwtService {
-    @Value("${token.secret}")
-    private String secret;
-    @Value("${token.validForHours}")
-    private Long tokenValidForHours;
-
     private final JWTVerifier jwtVerifier;
     private final Algorithm algorithm;
     private final String userIdClaimKey = "userId";
     private final Long tokenValidForMillis;
 
-    public JwtService() {
+    public JwtService(@Value("${token.secret}") String secret, @Value("${token.validForHours}") Long tokenValidForHours) {
         tokenValidForMillis = 1000L * 3600 * tokenValidForHours;
         algorithm = Algorithm.HMAC256(secret);
         jwtVerifier = JWT.require(algorithm).build();
