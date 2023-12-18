@@ -28,7 +28,7 @@ public class JwtService {
     public String generateToken(Long userId) {
         return JWT.create()
             .withSubject("aeticket user token")
-            .withClaim(userIdClaimKey , userId)
+            .withClaim(userIdClaimKey, userId)
             .withIssuedAt(new Date())
             .withExpiresAt(new Date(System.currentTimeMillis() + tokenValidForMillis))
             .sign(algorithm);

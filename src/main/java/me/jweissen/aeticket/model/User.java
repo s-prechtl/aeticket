@@ -1,14 +1,14 @@
 package me.jweissen.aeticket.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class User {
@@ -33,7 +33,6 @@ public class User {
     private String password;
 
     @Column
-    @NonNull
     private String token;
 
     @Column(nullable = false)

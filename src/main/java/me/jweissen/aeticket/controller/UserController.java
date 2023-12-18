@@ -1,7 +1,7 @@
 package me.jweissen.aeticket.controller;
 
 import me.jweissen.aeticket.dto.request.LoginRequestDto;
-import me.jweissen.aeticket.dto.request.UserRequestDto;
+import me.jweissen.aeticket.dto.request.SignupRequestDto;
 import me.jweissen.aeticket.dto.request.UserUpdateRequestDto;
 import me.jweissen.aeticket.dto.response.SignupResponseDto;
 import me.jweissen.aeticket.dto.response.UserResponseDto;
@@ -22,9 +22,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<SignupResponseDto> signUp(@RequestBody UserRequestDto user) {
-        // TODO
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<SignupResponseDto> signUp(@RequestBody SignupRequestDto user) {
+        return new ResponseEntity<>(userService.create(user), HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")
