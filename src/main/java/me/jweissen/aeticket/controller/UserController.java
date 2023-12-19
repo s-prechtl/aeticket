@@ -1,5 +1,6 @@
 package me.jweissen.aeticket.controller;
 
+import me.jweissen.aeticket.aspect.Permissions;
 import me.jweissen.aeticket.dto.request.LoginRequestDto;
 import me.jweissen.aeticket.dto.request.SignupRequestDto;
 import me.jweissen.aeticket.dto.request.UserUpdateRequestDto;
@@ -51,6 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/list")
+    @Permissions(user = false)
     public ResponseEntity<List<UserResponseDto>> getAll() {
         // TODO admin only
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);

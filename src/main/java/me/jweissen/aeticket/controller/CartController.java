@@ -1,6 +1,8 @@
 package me.jweissen.aeticket.controller;
 
+import me.jweissen.aeticket.dto.request.CartAddRequestDto;
 import me.jweissen.aeticket.dto.response.CartEntryResponseDto;
+import me.jweissen.aeticket.dto.response.CheckoutResponseDto;
 import me.jweissen.aeticket.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,21 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    /*@GetMapping("/list")
-    public ResponseEntity<List<CartEntryResponseDto>> getCartEntries() {
-        return cartService.get
-    }*/
-
     @PostMapping("/add")
-    public ResponseEntity<Void> addEntry() {
-
+    public ResponseEntity<Void> addEntry(CartAddRequestDto dto) {
+        // TODO
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<CartEntryResponseDto>> getCartEntries() {
+        // TODO
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
+    @GetMapping("/checkout")
+    public ResponseEntity<CheckoutResponseDto> checkout() {
+        // TODO
+        return ResponseEntity.badRequest().build();
+    }
 }

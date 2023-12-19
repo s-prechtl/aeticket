@@ -1,0 +1,31 @@
+### signup
+POST {{url}}/user/signup
+Content-Type: application/json
+
+{
+  "email": "ratp@htl-steyr.ac.at",
+  "password": "test",
+  "firstname": "Peter",
+  "lastname": "Rathgeb"
+}
+
+### signin
+GET {{url}}/user/signin
+
+### update
+PUT {{url}}/user/update
+
+{
+
+}
+
+### delete
+DELETE {{url}}/user/delete/99
+
+### list
+GET {{url}}/user/list
+
+### load
+GET {{url}}/user/load/1
+
+# eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZXRpY2tldCB1c2VyIHRva2VuIiwiZXhwIjoxNzAzMDU4MjczLCJ1c2VySWQiOjEsImlhdCI6MTcwMjk3MTg3M30.hC1N7hKYSIT-fqmaZ9bv3-YXOxQWdp-Sb5rZi4rARc0
