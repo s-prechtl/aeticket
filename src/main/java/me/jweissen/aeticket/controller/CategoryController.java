@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/eventcategory")
+@RequestMapping("/category")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -26,35 +26,35 @@ public class CategoryController {
     public ResponseEntity<Void> create(@RequestBody CategoryRequestDto dto) {
         // TODO admin only
         categoryService.create(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update")
     public ResponseEntity<Void> update(@RequestBody CategoryUpdateRequestDto dto) {
         // TODO admin only
+        System.out.println(dto);
         if (!categoryService.update(dto)) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         // TODO admin only
         categoryService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDto> getById(@PathVariable Long id) {
         return categoryService.getById(id)
             .map(categoryResponseDto -> new ResponseEntity<>(categoryResponseDto, HttpStatus.OK))
-            .orElseGet(() -> ResponseEntity.notFound().build());
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/list")
     public ResponseEntity<List<CategoryResponseDto>> getAll() {
         return new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
     }
-
 }

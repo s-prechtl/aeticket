@@ -15,6 +15,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Boolean checkedOut = false;
+
     @OneToMany(mappedBy = "cart")
     @Column(nullable = false)
     private List<CartEntry> cartEntries;

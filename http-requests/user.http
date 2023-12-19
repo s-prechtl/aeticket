@@ -10,22 +10,34 @@ Content-Type: application/json
 }
 
 ### signin
-GET {{url}}/user/signin
+POST {{url}}/user/signin
+Content-Type: application/json
+
+{
+  "email": "admin@email.com",
+  "password": "a"
+}
+
 
 ### update
 PUT {{url}}/user/update
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 {
-
+  "email": "ratp@htl-steyr.ac.at",
+  "firstname": "Peter Chef",
+  "lastname": "Rathgeb"
 }
 
 ### delete
-DELETE {{url}}/user/delete/99
+DELETE {{url}}/user/delete/1
+Authorization: Bearer {{token}}
 
 ### list
 GET {{url}}/user/list
+Authorization: Bearer {{token}}
 
 ### load
-GET {{url}}/user/load/1
-
-# eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZXRpY2tldCB1c2VyIHRva2VuIiwiZXhwIjoxNzAzMDU4MjczLCJ1c2VySWQiOjEsImlhdCI6MTcwMjk3MTg3M30.hC1N7hKYSIT-fqmaZ9bv3-YXOxQWdp-Sb5rZi4rARc0
+GET {{url}}/user/load/2
+Authorization: Bearer {{token}}

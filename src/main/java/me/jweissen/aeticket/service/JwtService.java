@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import me.jweissen.aeticket.model.User;
+import me.jweissen.aeticket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,8 @@ public class JwtService {
     private final JWTVerifier jwtVerifier;
     private final Algorithm algorithm;
     private final String userIdClaimKey = "userId";
-    private final Long tokenValidForMillis;
 
-    public JwtService(@Value("${token.secret}") String secret, @Value("${token.validForHours}") Long tokenValidForHours) {
-        tokenValidForMillis = 1000L * 3600 * tokenValidForHours;
+    public JwtService(@Value("${token.secret}") String secret) {
         algorithm = Algorithm.HMAC256(secret);
         jwtVerifier = JWT.require(algorithm).build();
     }
@@ -29,8 +29,6 @@ public class JwtService {
         return JWT.create()
             .withSubject("aeticket user token")
             .withClaim(userIdClaimKey, userId)
-            .withIssuedAt(new Date())
-            .withExpiresAt(new Date(System.currentTimeMillis() + tokenValidForMillis))
             .sign(algorithm);
     }
 
@@ -42,11 +40,16 @@ public class JwtService {
             // token not valid
             return Optional.empty();
         }
-        // token expired
-        if (decodedJWT.getExpiresAt().before(new Date())) {
+        Claim userIdClaim = decodedJWT.getClaim(userIdClaimKey);
+        if (userIdClaim.isNull()) {
+            // userId claim not present
             return Optional.empty();
         }
-        Claim claim = decodedJWT.getClaim(userIdClaimKey);
-        return Optional.of(claim.asLong());
+        Long userId = userIdClaim.asLong();
+        if (userId == null) {
+            // userId claim not a long
+            return Optional.empty();
+        }
+        return Optional.of(userId);
     }
 }

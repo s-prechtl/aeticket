@@ -3,6 +3,7 @@ package me.jweissen.aeticket.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -35,10 +36,18 @@ public class User {
     @Column
     private String token;
 
+    @Column
+    private Date tokenValidUntil;
+
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     @NonNull
     private Role role;
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    @NonNull
+    private Cart currentCart;
 
     @OneToMany(mappedBy = "user")
     private List<Cart> carts;

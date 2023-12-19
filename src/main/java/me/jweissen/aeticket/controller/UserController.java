@@ -1,6 +1,5 @@
 package me.jweissen.aeticket.controller;
 
-import me.jweissen.aeticket.aspect.Permissions;
 import me.jweissen.aeticket.dto.request.LoginRequestDto;
 import me.jweissen.aeticket.dto.request.SignupRequestDto;
 import me.jweissen.aeticket.dto.request.UserUpdateRequestDto;
@@ -39,30 +38,29 @@ public class UserController {
     public ResponseEntity<Void> update(@RequestBody UserUpdateRequestDto user) {
         // TODO admin only
         if (!userService.update(user)) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         // TODO admin only
         userService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/list")
-    @Permissions(user = false)
     public ResponseEntity<List<UserResponseDto>> getAll() {
         // TODO admin only
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/load/{id}")
-    public ResponseEntity<UserResponseDto> getById(@PathVariable Integer id) {
+    public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
         // TODO admin only
         return userService.getById(id)
             .map(userResponseDto -> new ResponseEntity<>(userResponseDto, HttpStatus.OK))
-            .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }

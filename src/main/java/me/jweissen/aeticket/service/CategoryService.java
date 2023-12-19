@@ -27,6 +27,10 @@ public class CategoryService {
         );
     }
 
+    public static List<Category> fromDtos(List<CategoryRequestDto> dtos) {
+        return dtos.stream().map(CategoryService::fromDto).toList();
+    }
+
     public static CategoryResponseDto toDto(Category category) {
         return new CategoryResponseDto(
             category.getId(),
@@ -54,6 +58,7 @@ public class CategoryService {
     }
 
     public boolean update(CategoryUpdateRequestDto dto) {
+        System.out.println(dto);
         return categoryRepository.findById(dto.id())
             .map(category -> {
                 category.setName(dto.name());

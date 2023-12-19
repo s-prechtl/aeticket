@@ -23,28 +23,28 @@ public class EventController {
     public ResponseEntity<Void> create(@RequestBody EventRequestDto event) {
         // TODO admin only
         eventService.create(event);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update")
     public ResponseEntity<Void> update(@RequestBody EventUpdateRequestDto event) {
         // TODO admin only
         eventService.update(event);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         // TODO admin only
         eventService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EventResponseDto> getById(@PathVariable Long id) {
         return eventService.getById(id)
             .map(eventResponseDto -> new ResponseEntity<>(eventResponseDto, HttpStatus.OK))
-            .orElseGet(() -> ResponseEntity.notFound().build());
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/list")

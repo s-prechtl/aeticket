@@ -5,6 +5,7 @@ import me.jweissen.aeticket.dto.request.SignupRequestDto;
 import me.jweissen.aeticket.dto.request.UserUpdateRequestDto;
 import me.jweissen.aeticket.dto.response.TokenResponseDto;
 import me.jweissen.aeticket.dto.response.UserResponseDto;
+import me.jweissen.aeticket.model.Cart;
 import me.jweissen.aeticket.model.Role;
 import me.jweissen.aeticket.model.User;
 import me.jweissen.aeticket.repository.UserRepository;
@@ -38,7 +39,8 @@ public class UserService {
             dto.lastname(),
             dto.email(),
             dto.password(),
-            Role.USER
+            Role.USER,
+            new Cart()
         );
     }
 
@@ -62,7 +64,7 @@ public class UserService {
         return new TokenResponseDto(generateToken(user));
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
@@ -87,7 +89,7 @@ public class UserService {
         return true;
     }
 
-    public Optional<UserResponseDto> getById(Integer id) {
+    public Optional<UserResponseDto> getById(Long id) {
         return userRepository.findById(id).map(UserService::toDto);
     }
 }

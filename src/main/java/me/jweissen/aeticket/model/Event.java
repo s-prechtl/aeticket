@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Event {
 
     @Column(nullable = false)
     @NonNull
-    private String title;
+    private String name;
 
     @Column(nullable = false)
     @NonNull
@@ -35,7 +35,7 @@ public class Event {
     @NonNull
     private Date end;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(nullable = false)
     private List<Category> categories = new ArrayList<>();
 

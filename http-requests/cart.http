@@ -1,0 +1,21 @@
+### add
+POST {{url}}/cart/add
+Content-Type: application/json
+
+{
+  "id": 9999999,
+  "cartEntries": [
+    {
+      "id": 2,
+      "amount": 20
+    }
+  ]
+}
+
+### list
+GET {{url}}/user/signin
+
+
+### checkout
+GET {{url}}/user/update
+Authorization: Bearer {{token}}

@@ -1,0 +1,53 @@
+### create
+POST {{url}}/event/create
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Maturaball HTL Steyr 2024",
+  "from": "2023-03-02T20:00:00.000Z",
+  "to": "2023-03-03T05:00:00.000Z",
+  "description": "Maturaball der Abteilungen EL, IT, ME, Y",
+  "ticketCategories": [
+    {
+      "name": "Normal",
+      "price": 25,
+      "stock": 500
+    },
+    {
+      "name": "Maturanten",
+      "price": 0,
+      "stock": 500
+    },
+    {
+      "name": "Prechtl",
+      "price": 50,
+      "stock": 1
+    }
+  ]
+}
+
+### update
+PUT {{url}}/event/update
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Maturaball HTL Steyr 2024",
+  "from": "2024-03-02T20:00:00.000Z",
+  "to": "2024-03-03T05:00:00.000Z",
+  "description": "Fluch der HTL"
+}
+
+### delete
+DELETE {{url}}/event/delete/3
+Authorization: Bearer {{token}}
+
+### list future events
+GET {{url}}/event/list
+Authorization: Bearer {{token}}
+
+### load
+GET {{url}}/event/2
+Authorization: Bearer {{token}}
