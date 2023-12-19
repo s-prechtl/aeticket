@@ -8,6 +8,7 @@ import me.jweissen.aeticket.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventService {
@@ -45,15 +46,21 @@ public class EventService {
         eventRepository.save(EventService.fromDto(event));
     }
 
-    public void update(EventUpdateRequestDto event) {
+    public boolean update(EventUpdateRequestDto dto) {
+        return eventRepository.findById(dto.id())
+            .map(event -> {
+                // dto auf object assignen
+                return true;
+            })
+            .orElse(false);
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         eventRepository.deleteById(id);
     }
 
-    public EventResponseDto getById(Integer id) {
-        return EventService.toDto(eventRepository.getReferenceById(id));
+    public Optional<EventResponseDto> getById(Long id) {
+        return eventRepository.findById(id).map(EventService::toDto);
     }
 
     public List<EventResponseDto> getAllFuture() {

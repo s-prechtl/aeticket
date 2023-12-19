@@ -1,4 +1,4 @@
 package me.jweissen.aeticket.dto.request;
 
-public record EventUpdateRequestDto() {
+public record EventUpdateRequestDto(Long id) {
 }

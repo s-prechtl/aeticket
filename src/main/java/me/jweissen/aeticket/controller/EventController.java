@@ -19,17 +19,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EventResponseDto> getById(@PathVariable Integer id) {
-        return new ResponseEntity<>(eventService.getById(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/list")
-    public ResponseEntity<List<EventResponseDto>> getAllFuture() {
-        return new ResponseEntity<>(eventService.getAllFuture(), HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<Void> create(@RequestBody EventRequestDto event) {
         // TODO admin only
         eventService.create(event);
@@ -39,14 +29,27 @@ public class EventController {
     @PutMapping("/update")
     public ResponseEntity<Void> update(@RequestBody EventUpdateRequestDto event) {
         // TODO admin only
-        // eventService.update(event);
+        eventService.update(event);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         // TODO admin only
         eventService.delete(id);
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EventResponseDto> getById(@PathVariable Long id) {
+        return eventService.getById(id)
+            .map(eventResponseDto -> new ResponseEntity<>(eventResponseDto, HttpStatus.OK))
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<EventResponseDto>> getAllFuture() {
+        return new ResponseEntity<>(eventService.getAllFuture(), HttpStatus.OK);
+    }
+
 }

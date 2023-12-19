@@ -27,7 +27,8 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<Void> addEntry() {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return ResponseEntity.noContent().build();
     }
 
 

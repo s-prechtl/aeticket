@@ -1,7 +1,9 @@
 package me.jweissen.aeticket.service;
 
+import me.jweissen.aeticket.dto.request.LoginRequestDto;
 import me.jweissen.aeticket.dto.request.SignupRequestDto;
-import me.jweissen.aeticket.dto.response.SignupResponseDto;
+import me.jweissen.aeticket.dto.request.UserUpdateRequestDto;
+import me.jweissen.aeticket.dto.response.TokenResponseDto;
 import me.jweissen.aeticket.dto.response.UserResponseDto;
 import me.jweissen.aeticket.model.Role;
 import me.jweissen.aeticket.model.User;
@@ -48,15 +50,44 @@ public class UserService {
         return UserService.toDtos(userRepository.findAll());
     }
 
-    public SignupResponseDto create(SignupRequestDto dto) {
-        var user = UserService.fromDto(dto);
-        user = userRepository.save(user);
+    public String generateToken(User user) {
         user.setToken(jwtService.generateToken(user.getId()));
         userRepository.save(user);
-        return new SignupResponseDto(user.getToken());
+        return user.getToken();
+    }
+
+    public TokenResponseDto create(SignupRequestDto dto) {
+        var user = UserService.fromDto(dto);
+        user = userRepository.save(user);
+        return new TokenResponseDto(generateToken(user));
     }
 
     public void delete(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    public Optional<TokenResponseDto> login(LoginRequestDto dto) {
+        var user = userRepository.findByEmail(dto.email());
+        if (!user.getPassword().equals(dto.password())) {
+            return Optional.empty();
+        }
+        return Optional.of(new TokenResponseDto(generateToken(user)));
+    }
+
+    public boolean update(UserUpdateRequestDto dto) {
+        var userOptional = userRepository.findById(dto.id());
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        var user = userOptional.get();
+        user.setEmail(dto.email());
+        user.setFirstname(dto.firstname());
+        user.setLastname(dto.lastname());
+        userRepository.save(user);
+        return true;
+    }
+
+    public Optional<UserResponseDto> getById(Integer id) {
+        return userRepository.findById(id).map(UserService::toDto);
     }
 }
