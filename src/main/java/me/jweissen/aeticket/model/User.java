@@ -10,6 +10,8 @@ import java.util.List;
 @Table
 @RequiredArgsConstructor
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Getter
 @Setter
 public class User {

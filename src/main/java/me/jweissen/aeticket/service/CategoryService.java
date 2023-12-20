@@ -3,9 +3,10 @@ package me.jweissen.aeticket.service;
 import me.jweissen.aeticket.dto.request.CategoryRequestDto;
 import me.jweissen.aeticket.dto.request.CategoryUpdateRequestDto;
 import me.jweissen.aeticket.dto.response.CategoryResponseDto;
-import me.jweissen.aeticket.dto.response.EventResponseDto;
 import me.jweissen.aeticket.model.Category;
+import me.jweissen.aeticket.model.Event;
 import me.jweissen.aeticket.repository.CategoryRepository;
+import me.jweissen.aeticket.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, EventRepository eventRepository) {
         this.categoryRepository = categoryRepository;
+        this.eventRepository = eventRepository;
     }
 
     public static Category fromDto(CategoryRequestDto dto) {
@@ -52,9 +55,16 @@ public class CategoryService {
         return (Double.valueOf(euros * 100)).intValue();
     }
 
-    public CategoryResponseDto create(CategoryRequestDto dto) {
-        Category category = categoryRepository.save(fromDto(dto));
-        return toDto(category);
+    public boolean create(CategoryRequestDto dto) {
+        Category category = fromDto(dto);
+        Optional<Event> event = eventRepository.findById(dto.eventId());
+        if (event.isEmpty()) {
+            // event ids not found
+            return false;
+        }
+        category.setEvent(event.get());
+        categoryRepository.save(category);
+        return true;
     }
 
     public boolean update(CategoryUpdateRequestDto dto) {

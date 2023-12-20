@@ -12,9 +12,6 @@ spring:
     username: test
     password: test
     url: 'jdbc:mysql://localhost:5306/test'
-server:
-  servlet:
-    context-path: '/api/v1'
 token:
   secret: "RATP loves Laravel more than Symfony"
   validForHours: 24

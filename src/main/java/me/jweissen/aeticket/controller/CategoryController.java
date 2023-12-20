@@ -47,11 +47,17 @@ public class CategoryController {
                     responseCode = "403",
                     description = "You're not authorized to perform this operation."
             ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "The given eventId couldn't be found"
+            ),
     })
     @PostMapping("/create")
     @AdminOnly
     public ResponseEntity<Void> create(@RequestBody CategoryRequestDto dto) {
-        categoryService.create(dto);
+        if (!categoryService.create(dto)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
