@@ -1,5 +1,6 @@
 package me.jweissen.aeticket.controller;
 
+import me.jweissen.aeticket.aspect.AdminOnly;
 import me.jweissen.aeticket.dto.request.LoginRequestDto;
 import me.jweissen.aeticket.dto.request.SignupRequestDto;
 import me.jweissen.aeticket.dto.request.UserUpdateRequestDto;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -35,8 +35,8 @@ public class UserController {
     }
 
     @PutMapping("/update")
+    @AdminOnly
     public ResponseEntity<Void> update(@RequestBody UserUpdateRequestDto user) {
-        // TODO admin only
         if (!userService.update(user)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -44,21 +44,21 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        // TODO admin only
         userService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/list")
+    @AdminOnly
     public ResponseEntity<List<UserResponseDto>> getAll() {
-        // TODO admin only
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/load/{id}")
+    @AdminOnly
     public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
-        // TODO admin only
         return userService.getById(id)
             .map(userResponseDto -> new ResponseEntity<>(userResponseDto, HttpStatus.OK))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());

@@ -57,11 +57,13 @@ public class CartService {
                 return false;
             }
             Category category = categoryOptional.get();
-            if (cartEntryDto.amount() > categoryRepository.availableTickets(category)) {
+            if (cartEntryDto.amount() > (category.getStock() - categoryRepository.unavailableTickets(category))) {
                 // wants to order more tickets than available
                 return false;
             }
-            cart.getCartEntries().add(new CartEntry(cart, category, cartEntryDto.amount()));
+            CartEntry cartEntry = new CartEntry(cart, category, cartEntryDto.amount());
+            cartEntry = cartEntryRepository.save(cartEntry);
+            cart.getCartEntries().add(cartEntry);
         }
         cartRepository.save(cart);
         return true;
@@ -72,6 +74,7 @@ public class CartService {
         cartRepository.save(cart);
         // reset current cart
         Cart newCart = new Cart();
+        newCart.setUser(cart.getUser());
         newCart = cartRepository.save(newCart);
         cart.getUser().setCurrentCart(newCart);
         userRepository.save(cart.getUser());

@@ -19,7 +19,7 @@ public class Cart {
     private Boolean checkedOut = false;
 
     @OneToMany(mappedBy = "cart")
-    @Column(nullable = false)
+    @Column
     private List<CartEntry> cartEntries;
 
     @ManyToOne

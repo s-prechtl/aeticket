@@ -1,5 +1,7 @@
 package me.jweissen.aeticket.controller;
 
+import me.jweissen.aeticket.aspect.AdminOnly;
+import me.jweissen.aeticket.aspect.UserOnly;
 import me.jweissen.aeticket.dto.request.EventRequestDto;
 import me.jweissen.aeticket.dto.request.EventUpdateRequestDto;
 import me.jweissen.aeticket.dto.response.EventResponseDto;
@@ -20,27 +22,28 @@ public class EventController {
     }
 
     @PostMapping("/create")
+    @AdminOnly
     public ResponseEntity<Void> create(@RequestBody EventRequestDto event) {
-        // TODO admin only
         eventService.create(event);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update")
+    @AdminOnly
     public ResponseEntity<Void> update(@RequestBody EventUpdateRequestDto event) {
-        // TODO admin only
         eventService.update(event);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/delete/{id}")
+    @AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        // TODO admin only
         eventService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{id}")
+    @UserOnly
     public ResponseEntity<EventResponseDto> getById(@PathVariable Long id) {
         return eventService.getById(id)
             .map(eventResponseDto -> new ResponseEntity<>(eventResponseDto, HttpStatus.OK))
@@ -48,6 +51,7 @@ public class EventController {
     }
 
     @GetMapping("/list")
+    @UserOnly
     public ResponseEntity<List<EventResponseDto>> getAllFuture() {
         return new ResponseEntity<>(eventService.getAllFuture(), HttpStatus.OK);
     }

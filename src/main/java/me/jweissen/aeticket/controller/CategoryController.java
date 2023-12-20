@@ -1,11 +1,10 @@
 package me.jweissen.aeticket.controller;
 
+import me.jweissen.aeticket.aspect.AdminOnly;
+import me.jweissen.aeticket.aspect.UserOnly;
 import me.jweissen.aeticket.dto.request.CategoryRequestDto;
 import me.jweissen.aeticket.dto.request.CategoryUpdateRequestDto;
-import me.jweissen.aeticket.dto.request.EventRequestDto;
-import me.jweissen.aeticket.dto.request.EventUpdateRequestDto;
 import me.jweissen.aeticket.dto.response.CategoryResponseDto;
-import me.jweissen.aeticket.dto.response.EventResponseDto;
 import me.jweissen.aeticket.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +22,15 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
+    @AdminOnly
     public ResponseEntity<Void> create(@RequestBody CategoryRequestDto dto) {
-        // TODO admin only
         categoryService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update")
+    @AdminOnly
     public ResponseEntity<Void> update(@RequestBody CategoryUpdateRequestDto dto) {
-        // TODO admin only
-        System.out.println(dto);
         if (!categoryService.update(dto)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -40,13 +38,14 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        // TODO admin only
         categoryService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{id}")
+    @UserOnly
     public ResponseEntity<CategoryResponseDto> getById(@PathVariable Long id) {
         return categoryService.getById(id)
             .map(categoryResponseDto -> new ResponseEntity<>(categoryResponseDto, HttpStatus.OK))
@@ -54,6 +53,7 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
+    @UserOnly
     public ResponseEntity<List<CategoryResponseDto>> getAll() {
         return new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
     }

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query("SELECT c.stock - sum(ce.amount) FROM Category c INNER JOIN CartEntry ce ON c = ce.category WHERE c = :category GROUP BY c")
-    Integer availableTickets(@Param("category") Category category);
+    @Query("SELECT COALESCE(sum(ce.amount), 0) FROM CartEntry ce WHERE ce.category = :category")
+    Integer unavailableTickets(@Param("category") Category category);
 }

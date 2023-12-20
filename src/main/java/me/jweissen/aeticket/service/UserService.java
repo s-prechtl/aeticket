@@ -8,6 +8,7 @@ import me.jweissen.aeticket.dto.response.UserResponseDto;
 import me.jweissen.aeticket.model.Cart;
 import me.jweissen.aeticket.model.Role;
 import me.jweissen.aeticket.model.User;
+import me.jweissen.aeticket.repository.CartRepository;
 import me.jweissen.aeticket.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,15 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final AuthService authService;
+    private final CartRepository cartRepository;
 
-    public UserService(UserRepository userRepository, JwtService jwtService) {
+    public UserService(UserRepository userRepository, JwtService jwtService, AuthService authService,
+                       CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.authService = authService;
+        this.cartRepository = cartRepository;
     }
 
     public static UserResponseDto toDto(User user) {
@@ -39,8 +45,7 @@ public class UserService {
             dto.lastname(),
             dto.email(),
             dto.password(),
-            Role.USER,
-            new Cart()
+            Role.USER
         );
     }
 
@@ -54,6 +59,7 @@ public class UserService {
 
     public String generateToken(User user) {
         user.setToken(jwtService.generateToken(user.getId()));
+        authService.extendToken(user);
         userRepository.save(user);
         return user.getToken();
     }
@@ -61,6 +67,11 @@ public class UserService {
     public TokenResponseDto create(SignupRequestDto dto) {
         var user = UserService.fromDto(dto);
         user = userRepository.save(user);
+        Cart newCart = new Cart();
+        newCart.setUser(user);
+        cartRepository.save(newCart);
+        user.setCurrentCart(newCart);
+        userRepository.save(user);
         return new TokenResponseDto(generateToken(user));
     }
 

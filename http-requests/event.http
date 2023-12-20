@@ -1,6 +1,6 @@
 ### create
 POST {{url}}/event/create
-# Authorization: Bearer {{token}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
