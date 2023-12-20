@@ -1,5 +1,11 @@
 package me.jweissen.aeticket.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import me.jweissen.aeticket.aspect.AdminOnly;
 import me.jweissen.aeticket.aspect.UserOnly;
 import me.jweissen.aeticket.dto.request.EventRequestDto;
@@ -21,6 +27,27 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    @Operation(
+            summary = "Create a new event"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Success"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Your request body was malformed/insufficient."
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "You didn't provide proper authentication via a bearer token"
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "You're not authorized to perform this operation."
+            ),
+    })
     @PostMapping("/create")
     @AdminOnly
     public ResponseEntity<Void> create(@RequestBody EventRequestDto event) {
@@ -28,6 +55,27 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Operation(
+            summary = "Update an event"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Your request body was malformed/insufficient."
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "You didn't provide proper authentication via a bearer token"
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "You're not authorized to perform this operation."
+            ),
+    })
     @PutMapping("/update")
     @AdminOnly
     public ResponseEntity<Void> update(@RequestBody EventUpdateRequestDto event) {
@@ -35,6 +83,23 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(
+            summary = "Delete an event"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "You didn't provide proper authentication via a bearer token"
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "You're not authorized to perform this operation."
+            ),
+    })
     @DeleteMapping("/delete/{id}")
     @AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -42,6 +107,20 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(
+            summary = "Load an event by id"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Success",
+                    content = @Content(schema = @Schema(implementation = EventResponseDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "You didn't provide proper authentication via a bearer token"
+            ),
+    })
     @GetMapping("/{id}")
     @UserOnly
     public ResponseEntity<EventResponseDto> getById(@PathVariable Long id) {
@@ -50,6 +129,20 @@ public class EventController {
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @Operation(
+            summary = "List all future events"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Success",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = EventResponseDto.class)))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "You didn't provide proper authentication via a bearer token"
+            )
+    })
     @GetMapping("/list")
     @UserOnly
     public ResponseEntity<List<EventResponseDto>> getAllFuture() {
