@@ -20,7 +20,7 @@ public class Cart {
     @Column(nullable = false)
     private Boolean checkedOut = false;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @Column
     private List<CartEntry> cartEntries;
 
